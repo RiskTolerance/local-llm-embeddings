@@ -12,23 +12,27 @@ A local document processing and question-answering system using vector embedding
 ## Setup
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd local-llm-embeddings
    ```
 
 2. Start the services:
+
    ```bash
    docker-compose up -d
    ```
 
 3. Pull the required LLM model:
+
    ```bash
    # Wait for Ollama service to be healthy, then:
    docker-compose exec ollama ollama pull mistral
    ```
 
 4. Install dependencies:
+
    ```bash
    # Backend
    cd backend
@@ -42,16 +46,18 @@ A local document processing and question-answering system using vector embedding
 ## Usage
 
 The system provides:
+
 - Document ingestion (supports .txt, .md, .docx files)
 - Vector embeddings using Snowflake's Arctic model
 - Question answering using Mistral LLM
 - Web interface for document upload and queries
 
 Access the services at:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:3000
+
+- Frontend: <http://localhost:5173>
+- Backend API: <http://localhost:3000>
 - SurrealDB: ws://localhost:8000
-- Ollama: http://localhost:11434
+- Ollama: <http://localhost:11434>
 
 ## Troubleshooting
 
@@ -91,6 +97,7 @@ Access the services at:
 ### Backend
 
 The backend service is built with:
+
 - Node.js + TypeScript
 - Express.js
 - SurrealDB for vector storage
@@ -100,10 +107,11 @@ The backend service is built with:
 ### Frontend
 
 The frontend is built with:
+
 - SvelteKit
 - TypeScript
 - Modern UI components
 
 ## License
 
-[Your chosen license] 
+[Your chosen license]
