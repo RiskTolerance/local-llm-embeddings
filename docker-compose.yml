@@ -1,0 +1,57 @@
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - surrealdb_data:/data
+    command: start --user root --pass root --bind 0.0.0.0:8000 memory
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - SURREAL_URL=ws://surrealdb:8000/rpc
+      - SURREAL_USER=root
+      - SURREAL_PASS=root
+      - SURREAL_NS=test
+      - SURREAL_DB=rag
+      - OLLAMA_URL=http://ollama:11434
+    depends_on:
+      - surrealdb
+      - ollama
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_BACKEND_URL=http://localhost:3000
+    depends_on:
+      - backend
+
+volumes:
+  surrealdb_data:
+  ollama_data:
+  backend_node_modules:
+  frontend_node_modules: 
